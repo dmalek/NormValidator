@@ -1,8 +1,8 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class In<T> : INorm<T>  
+public class InNorm<T> : INorm<T>  
 {        
-    public In<T> Values(params T[] referenceValue)
+    public InNorm<T> Values(params T[] referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -19,7 +19,7 @@ public static class InExtensions
 {
     public static IValidationContext<TValue> In<TValue>(this IValidationContext<TValue> context, params TValue[] referenceValue)
     {        
-        context.Norm = new Norms.In<TValue>().Values(referenceValue);
+        context.Norm = new InNorm<TValue>().Values(referenceValue);
         context.Validate();
         return context;
     }

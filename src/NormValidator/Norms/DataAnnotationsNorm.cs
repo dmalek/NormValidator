@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace NormValidator.Norms;
+namespace NormValidator;
 
-public class DataAnnotations<T> : INorm<T>, INormErrors
+public class DataAnnotationsNorm<T> : INorm<T>, INormErrors
 {
     public IEnumerable<string?> Errors { get; set; } = Enumerable.Empty<string?>();
     
@@ -30,7 +30,7 @@ public static class DataAnnotationsExtensions
 {
     public static IValidationContext<TValue> DataAnnotations<TValue>(this IValidationContext<TValue> context)
     {        
-        context.Norm = new Norms.DataAnnotations<TValue>();        
+        context.Norm = new DataAnnotationsNorm<TValue>();        
         context.Validate();
         return context;
     }

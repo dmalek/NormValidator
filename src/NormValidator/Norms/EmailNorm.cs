@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NormValidator.Norms;
+namespace NormValidator;
 
-public class Email : INorm<string>    
+public class EmailNorm : INorm<string>    
 {
     public bool Validate(string value)
     {
@@ -15,7 +15,7 @@ public static class EmailExtensions
     public static IValidationContext<string> Email<TValue>(this IValidationContext<string> context)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.Email();
+        context.Norm = new EmailNorm();
         context.Validate();
         return context;
     }

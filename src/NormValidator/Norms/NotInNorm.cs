@@ -1,8 +1,8 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class NotIn<T> : INorm<T>
+public class NotInNorm<T> : INorm<T>
 {
-    public NotIn<T> Values(params T[] referenceValue)
+    public NotInNorm<T> Values(params T[] referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -20,7 +20,7 @@ public static class NotInExtensions
 {
     public static IValidationContext<TValue> NotIn<TValue>(this IValidationContext<TValue> context, params TValue[] referenceValue)
     {        
-        context.Norm = new Norms.NotIn<TValue>().Values(referenceValue);
+        context.Norm = new NotInNorm<TValue>().Values(referenceValue);
         context.Validate();
         return context;
     }

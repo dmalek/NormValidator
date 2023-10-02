@@ -1,9 +1,9 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class Greater<T> : INorm<T>
+public class GreaterNorm<T> : INorm<T>
     where T : IComparable
 {
-    public Greater<T> Then(T referenceValue)
+    public GreaterNorm<T> Then(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -24,7 +24,7 @@ public static class GreaterExtensions
     public static IValidationContext<TValue> GreaterThen<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.Greater<TValue>().Then(referenceValue);
+        context.Norm = new GreaterNorm<TValue>().Then(referenceValue);
         context.Validate();
         return context;
     }

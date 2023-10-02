@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace NormValidator.Norms;
+namespace NormValidator;
 
-public class Regex : INorm<string>
+public class RegexNorm : INorm<string>
 {        
-    public Regex Match(string expression)
+    public RegexNorm Match(string expression)
     {
         _expression = expression;
         return this;
@@ -24,7 +24,7 @@ public static class RegexExtensions
 {
     public static IValidationContext<string> Regex(this IValidationContext<string> context, string expression)
     {        
-        context.Norm = new Norms.Regex().Match(expression);
+        context.Norm = new RegexNorm().Match(expression);
         context.Validate();
         return context;
     }

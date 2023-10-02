@@ -1,16 +1,15 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class Lower<T> : INorm<T>
-    where T: IComparable
+public class LessNorm<T> : INorm<T>
+    where T : IComparable
 {
-    public Lower<T> Then(T referenceValue)
+    public LessNorm<T> Then(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
     }
 
     private T _referenceValue = default(T);
-
     public bool Validate(T value)
     {
         var comparation = ((IComparable)(value)).CompareTo(_referenceValue);
@@ -18,12 +17,12 @@ public class Lower<T> : INorm<T>
     }
 }
 
-public static class LowerExtensions
+public static class LessExtensions
 {
-    public static IValidationContext<TValue> Lower<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static IValidationContext<TValue> LessThen<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.Lower<TValue>().Then(referenceValue);
+        context.Norm = new LessNorm<TValue>().Then(referenceValue);
         context.Validate();
         return context;
     }

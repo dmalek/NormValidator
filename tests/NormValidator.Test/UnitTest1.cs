@@ -1,6 +1,3 @@
-using NormValidator.Norms;
-using System.ComponentModel.DataAnnotations;
-
 namespace NormValidator.Test
 {
     [TestClass]
@@ -30,7 +27,7 @@ namespace NormValidator.Test
             result.Validate(player.Age)
                 .WithMessage($"The age limit is {competition.AgeLimit}.")
                 .WithFault(CompettitionFaults.AgeLimit)
-                .LessOrEqual(competition.AgeLimit);                
+                .LessOrEqual(competition.AgeLimit);
 
 
             var x = result.Errors.Count();

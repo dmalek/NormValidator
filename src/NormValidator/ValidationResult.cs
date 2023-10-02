@@ -1,6 +1,6 @@
 ﻿namespace NormValidator;
 
-public class ValidationResult<TFault>
+public class ValidationResult<TFault>: IValidationResult
 {
     protected readonly List<Fault<TFault>> _errors = new List<Fault<TFault>> ();
 
@@ -18,7 +18,9 @@ public class ValidationResult<TFault>
 
     public bool IsValid => _errors.Count == 0;
 
-    public List<Fault<TFault>> Errors => _errors;
+    public IEnumerable<Fault<TFault>> Errors => _errors.AsEnumerable();
+
+    public IEnumerable<Fault<string?>> GetFlattenErrors() => _errors.Select(x => new Fault<string?>(x.Value?.ToString(), x.Message)).ToList().AsEnumerable();
 
     public void AddError(Fault<TFault> fault)
     {

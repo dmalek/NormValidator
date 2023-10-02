@@ -2,6 +2,10 @@
 
 public static class Extensions
 {
+    public static void Throw<T>(this Fault<T> fault)
+    {
+        throw new FaultException<T>(fault);
+    }
 
     public static ValidationContext<TValue, TFault> WithFault<TValue, TFault>(this ValidationContext<TValue, TFault> context, TFault fault)
     {

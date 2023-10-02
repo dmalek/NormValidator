@@ -1,6 +1,6 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class Guid : INorm<string>
+public class GuidNorm : INorm<string>
 {
     public bool Validate(string value)
     {
@@ -13,7 +13,7 @@ public static class GuidExtensions
     public static IValidationContext<string> Guid<TValue>(this IValidationContext<string> context)
         where TValue : IComparable
     {
-        context.Norm = new Norms.Guid();
+        context.Norm = new GuidNorm();
         context.Validate();
         return context;
     }

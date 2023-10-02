@@ -1,6 +1,6 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public sealed class NotEmpty : INorm<string>
+public sealed class NotEmptyNorm : INorm<string>
 {
     public bool Validate(string value)
     {
@@ -18,7 +18,7 @@ public static class NotEmptyExtensions
 {
     public static IValidationContext<string> NotEmpty(this IValidationContext<string> context)
     {        
-        context.Norm = new Norms.NotEmpty();
+        context.Norm = new NotEmptyNorm();
         context.Validate();
         return context;
     }

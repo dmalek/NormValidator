@@ -1,9 +1,9 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class NotEqual<T> : INorm<T>
+public class NotEqualNorm<T> : INorm<T>
     where T: IComparable
 {
-    public NotEqual<T> To(T referenceValue)
+    public NotEqualNorm<T> To(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -23,7 +23,7 @@ public static class NotEqualExtensions
     public static IValidationContext<TValue> NotEqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.NotEqual<TValue>().To(referenceValue);
+        context.Norm = new NotEqualNorm<TValue>().To(referenceValue);
         context.Validate();
         return context;
     }

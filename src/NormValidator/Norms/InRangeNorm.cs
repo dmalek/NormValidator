@@ -1,15 +1,15 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class InRange<T> : INorm<T>
+public class InRangeNorm<T> : INorm<T>
     where T : IComparable
 {
-    public InRange<T> From(T referenceValue)
+    public InRangeNorm<T> From(T referenceValue)
     {
         _from = referenceValue;
         return this;
     }
 
-    public InRange<T> To(T referenceValue)
+    public InRangeNorm<T> To(T referenceValue)
     {
         _to = referenceValue;
         return this;
@@ -32,7 +32,7 @@ public static class InRangeExtensions
     public static IValidationContext<TValue> LessThen<TValue>(this IValidationContext<TValue> context, TValue from, TValue to)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.InRange<TValue>().From(from).To(to);
+        context.Norm = new InRangeNorm<TValue>().From(from).To(to);
         context.Validate();
         return context;
     }

@@ -1,9 +1,9 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class LessOrEqual<T> : INorm<T>
+public class LessOrEqualNorm<T> : INorm<T>
     where T : IComparable
 {
-    public LessOrEqual<T> Then(T referenceValue)
+    public LessOrEqualNorm<T> Then(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -22,7 +22,7 @@ public static class LessOrEqualExtensions
     public static IValidationContext<TValue> LessOrEqual<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.LessOrEqual<TValue>().Then(referenceValue);
+        context.Norm = new LessOrEqualNorm<TValue>().Then(referenceValue);
         context.Validate();
         return context;
     }

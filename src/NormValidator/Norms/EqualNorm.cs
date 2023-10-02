@@ -1,9 +1,9 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class Equal<T> : INorm<T>
+public class EqualNorm<T> : INorm<T>
     where T: IComparable
 {
-    public Equal<T> To(T referenceValue)
+    public EqualNorm<T> To(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -23,7 +23,7 @@ public static class EqualExtensions
     public static IValidationContext<TValue> EqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.Equal<TValue>().To(referenceValue);
+        context.Norm = new EqualNorm<TValue>().To(referenceValue);
         context.Validate();
         return context;
     }

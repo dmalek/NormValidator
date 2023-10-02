@@ -1,11 +1,11 @@
-﻿namespace NormValidator.Norms;
+﻿namespace NormValidator;
 
-public class GreaterOrEqual<T> : INorm<T>
+public class GreaterOrEqualNorm<T> : INorm<T>
     where T : IComparable
 {
     private T _referenceValue = default(T);
 
-    public GreaterOrEqual<T> Then(T referenceValue)
+    public GreaterOrEqualNorm<T> Then(T referenceValue)
     {
         _referenceValue = referenceValue;
         return this;
@@ -23,7 +23,7 @@ public static class GreaterOrEqualExtensions
     public static IValidationContext<TValue> GreaterOrEqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new Norms.GreaterOrEqual<TValue>().Then(referenceValue);
+        context.Norm = new GreaterOrEqualNorm<TValue>().Then(referenceValue);
         context.Validate();
         return context;
     }
