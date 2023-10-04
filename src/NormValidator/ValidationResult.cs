@@ -1,6 +1,6 @@
 ﻿namespace NormValidator;
 
-public class ValidationResult<TFault>: IValidationResult
+public class ValidationResult<TFault>
 {
     protected readonly List<Fault<TFault>> _errors = new List<Fault<TFault>> ();
 
