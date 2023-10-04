@@ -9,6 +9,7 @@ namespace NormValidator.Test
     public class Compettition
     {
         public string Name { get; set; } = string.Empty;
-        public int AgeLimit { get; set; } = 0;
+        public int MinAgeLimit { get; set; } = 0;
+        public int MaxAgeLimit { get; set; } = 0;
     }
 }

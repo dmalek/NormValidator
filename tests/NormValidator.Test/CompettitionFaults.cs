@@ -3,7 +3,6 @@
     public enum CompettitionFaults
     {
         InvalidData,
-        AgeLimit,
-
+        AgeLimit        
     }
 }

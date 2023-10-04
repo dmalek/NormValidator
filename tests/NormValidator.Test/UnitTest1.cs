@@ -9,7 +9,8 @@ namespace NormValidator.Test
             var competition = new Compettition()
             {
                 Name = "Under 21",
-                AgeLimit = 21
+                MaxAgeLimit = 21,
+                MinAgeLimit = 17
             };
 
             var player = new Player()
@@ -24,13 +25,21 @@ namespace NormValidator.Test
                 .WithFault(CompettitionFaults.InvalidData)
                 .DataAnnotations();
 
-            result.Validate(player.Age)
-                .WithMessage($"The age limit is {competition.AgeLimit}.")
-                .WithFault(CompettitionFaults.AgeLimit)
-                .LessOrEqual(competition.AgeLimit);
+            var ageVale = result.Validate(player.Age);
+            ageVale.WithFault(CompettitionFaults.AgeLimit)
+                .WithMessage($"The max age limit is {competition.MaxAgeLimit}.")
+                .LessOrEqual(competition.MaxAgeLimit);
 
+            ageVale.WithMessage($"The minage limit is {competition.MinAgeLimit}.")
+                .GreaterThen(competition.MinAgeLimit);
+
+            result.Validate(2)
+                .WithFault(CompettitionFaults.AgeLimit)
+                .WithMessage($"The minage limit is {competition.MinAgeLimit}.")
+                .GreaterThen(competition.MinAgeLimit);
 
             var x = result.Errors.Count();
+            var y = result.ToDictionary();
             Assert.AreNotEqual(0, x);
 
         }

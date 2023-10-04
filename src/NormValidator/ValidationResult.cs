@@ -20,7 +20,15 @@ public class ValidationResult<TFault>: IValidationResult
 
     public IEnumerable<Fault<TFault>> Errors => _errors.AsEnumerable();
 
-    public IEnumerable<Fault<string?>> GetFlattenErrors() => _errors.Select(x => new Fault<string?>(x.Value?.ToString(), x.Message)).ToList().AsEnumerable();
+    public IDictionary<string, string[]> ToDictionary()
+    {
+        return _errors
+            .GroupBy(x => x.Value?.ToString() ?? "")            
+            .ToDictionary(g => 
+                g.Key, 
+                g => g.ToList().Select( y => y.Message).ToArray()
+                );
+    }
 
     public void AddError(Fault<TFault> fault)
     {
