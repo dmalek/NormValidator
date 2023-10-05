@@ -20,7 +20,7 @@ namespace NormValidator.Test
             };
 
 
-            var result = new ValidationResult<CompettitionFaults>();
+            var result = new ValidationResult();
             result.Validate(player)
                 .WithFault(CompettitionFaults.InvalidData)
                 .DataAnnotations();
@@ -37,6 +37,9 @@ namespace NormValidator.Test
                 .WithFault(CompettitionFaults.AgeLimit)
                 .WithMessage($"The minage limit is {competition.MinAgeLimit}.")
                 .GreaterThen(competition.MinAgeLimit);
+
+            // add custom error  
+            result.AddError(CompettitionFaults.InvalidData, "This is custom error");
 
             var x = result.Errors.Count();
             var y = result.ToDictionary();

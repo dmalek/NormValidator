@@ -1,12 +1,12 @@
 ﻿namespace NormValidator;
 
-public class ValidationResult<TFault>
+public class ValidationResult
 {
-    protected readonly List<Fault<TFault>> _errors = new List<Fault<TFault>> ();
+    protected readonly List<Fault> _errors = new List<Fault> ();
 
     public ValidationResult()
     {
-        DisplayName = nameof(ValidationResult<TFault>);
+        DisplayName = nameof(ValidationResult);
     }
 
     public ValidationResult(string displayName)
@@ -18,25 +18,25 @@ public class ValidationResult<TFault>
 
     public bool IsValid => _errors.Count == 0;
 
-    public IEnumerable<Fault<TFault>> Errors => _errors.AsEnumerable();
+    public IEnumerable<Fault> Errors => _errors.AsEnumerable();
 
     public IDictionary<string, string[]> ToDictionary()
     {
         return _errors
-            .GroupBy(x => x.Value?.ToString() ?? "")            
+            .GroupBy(x => x.Type.ToString() ?? "")            
             .ToDictionary(g => 
                 g.Key, 
                 g => g.ToList().Select( y => y.Message).ToArray()
                 );
     }
 
-    public void AddError(Fault<TFault> fault)
+    public void AddError(Fault fault)
     {
         _errors.Add(fault);
     }
 
-    public void AddError(TFault fault, string message)
+    public void AddError(FaultType faultType, string message)
     {
-        _errors.Add(new Fault<TFault>(fault, message));
+        _errors.Add(new Fault(faultType, message));
     }
 }

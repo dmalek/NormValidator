@@ -2,25 +2,25 @@
 
 public static class Extensions
 {
-    public static void Throw<T>(this Fault<T> fault)
+    public static void Throw(this Fault fault)
     {
-        throw new FaultException<T>(fault);
+        throw new FaultException(fault);
     }
 
-    public static ValidationContext<TValue, TFault> WithFault<TValue, TFault>(this ValidationContext<TValue, TFault> context, TFault fault)
+    public static ValidationContext<TValue> WithFault<TValue>(this ValidationContext<TValue> context, FaultType faultType)
     {
-        context.Fault = fault;
+        context.FaultType = faultType;
         return context;
     }
 
-    public static ValidationContext<TValue, TFault> WithMessage<TValue, TFault>(this ValidationContext<TValue, TFault> context, string message)
+    public static ValidationContext<TValue> WithMessage<TValue>(this ValidationContext<TValue> context, string message)
     {
         context.Message = message;
         return context;
     }
 
-    public static ValidationContext<TValue, TFault> Validate<TValue, TFault>(this ValidationResult<TFault> result, TValue value)
+    public static ValidationContext<TValue> Validate<TValue>(this ValidationResult result, TValue value)
     {
-        return new ValidationContext<TValue, TFault>(result, value);
+        return new ValidationContext<TValue>(result, value);
     }
 }

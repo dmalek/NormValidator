@@ -1,24 +1,23 @@
-﻿namespace NormValidator
+﻿namespace NormValidator;
+
+public class Fault
 {
-    public class Fault<T>
+    private readonly FaultType _type;
+    private readonly string _message = string.Empty;
+
+    public Fault(FaultType type)
     {
-        private readonly T? _value = default(T);
-        private readonly string _message = string.Empty;
-
-        public Fault(T value)
-        {
-            _value = value;
-        }
-
-        public Fault(T value, string message)
-        {
-            _value = value;
-            _message = message;
-        }
-
-        public T? Value => _value;
-        public string Message => _message;
-
-        public override string ToString() => _message;
+        _type = type;
     }
+
+    public Fault(FaultType type, string message)
+    {
+        _type = type;
+        _message = message;
+    }
+
+    public FaultType Type => _type;
+    public string Message => _message;
+
+    public override string ToString() => _message;
 }

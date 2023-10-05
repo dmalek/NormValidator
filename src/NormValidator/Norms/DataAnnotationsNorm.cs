@@ -10,7 +10,7 @@ public class DataAnnotationsNorm<T> : INorm<T>, INormErrors
     public bool Validate(T value)
     {
         var context = new ValidationContext(value);
-        ICollection<ValidationResult> errors = new Collection<ValidationResult>();
+        ICollection<System.ComponentModel.DataAnnotations.ValidationResult> errors = new Collection<System.ComponentModel.DataAnnotations.ValidationResult>();
         var isValid = Validator.TryValidateObject(value, context, errors, true);
 
         if (errors !=  null && errors.Count > 0)

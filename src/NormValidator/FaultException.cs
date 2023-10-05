@@ -1,12 +1,12 @@
 ﻿namespace NormValidator;
 
-public class FaultException<T> : Exception
+public class FaultException : Exception
 {
-    public FaultException(Fault<T> fault)
+    public FaultException(Fault fault)
         : base(fault.Message)
     {
         InnerFault = fault;
     }
 
-    public Fault<T> InnerFault { get; }
+    public Fault InnerFault { get; }
 }
