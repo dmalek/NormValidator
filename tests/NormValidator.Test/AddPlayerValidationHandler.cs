@@ -30,7 +30,7 @@
                 .WithFault(CompettitionFaults.NotSport)
                 .WithMessage($"Player is not registefred for {sport}");
 
-            // Adding custom validations aand errors
+            // Adding custom validations and errors
             // check some external services / database etc...
             var isSuspended = FakeServices.IsPlayerSuspended(data);
             if (isSuspended)
