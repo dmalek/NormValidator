@@ -32,7 +32,7 @@
 
             // Adding custom validations aand errors
             // check some external services / database etc...
-            var isSuspended = Services.IsPlayerSuspended(data);
+            var isSuspended = FakeServices.IsPlayerSuspended(data);
             if (isSuspended)
             {
                 AddError(CompettitionFaults.PlayerSuspended, $"Player {data.FirstName} is suspended!");

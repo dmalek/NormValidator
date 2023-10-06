@@ -1,6 +1,6 @@
 ﻿namespace NormValidator.Test
 {
-    internal static class Services
+    internal static class FakeServices
     {
         public static bool IsPlayerSuspended(Player player)
         {
