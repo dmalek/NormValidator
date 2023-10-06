@@ -1,6 +1,6 @@
 ﻿namespace NormValidator.Test
 {
-    internal class AddPlayerValidationHandler : AbstractNormValidationHandler<Player>
+    internal class AddPlayerValidationHandler : AbstractValidationHandler<Player>
     {
         public override FaultType? DefaultFaultType => CompettitionFaults.InvalidData;
 

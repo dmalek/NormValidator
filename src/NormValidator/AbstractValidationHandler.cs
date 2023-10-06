@@ -1,6 +1,6 @@
 ﻿namespace NormValidator;
 
-public abstract class AbstractNormValidationHandler<T> : INormValidationHandler<T>
+public abstract class AbstractValidationHandler<T> : IValidationHandler<T>
 {
     private readonly ValidationResult _result = new ValidationResult(typeof(T).Name);
     private readonly List<IValidationContext> _contexts = new();
