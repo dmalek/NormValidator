@@ -15,40 +15,47 @@ public class CompettitionFaults : FaultType
 }
 ```
 
-## Validate data
+## Validate data with validation handler
 ```
-  var competition = new Compettition()
-  {
-      Name = "Under 21",
-      MaxAgeLimit = 21,
-      MinAgeLimit = 17
-  };
+    internal class AddPlayerValidationHandler : AbstractNormValidationHandler<Player>
+    {
+        public override FaultType? DefaultFaultType => CompettitionFaults.InvalidData;
 
-  var player = new Player()
-  {
-      FirstName = "Foo",
-      Age = 23,
-  };
+        protected override async Task OnValidate(Player data, CancellationToken cancellationToken = default)
+        {
+            // competition config
+            int maxAgeLimit = 21;
+            int minAgeLimit = 17;
+            string sport = "footbal";
+          
+            // validate data annotations
+            NormFor(data)
+                .DataAnnotations();
 
+            // validate age
+            NormFor(data.Age)
+                .LessOrEqual(maxAgeLimit)
+                    .WithMessage($"The max age limit is {maxAgeLimit}.")
+                    .WithFault(CompettitionFaults.AgeLimit)
+                .GreaterThen(minAgeLimit)
+                    .WithMessage($"The min age limit is {minAgeLimit}.")
+                    .WithFault(CompettitionFaults.AgeLimit);
 
-  var result = new ValidationResult();
-  result.Validate(player)
-      .WithFault(CompettitionFaults.InvalidData)
-      .DataAnnotations();
+            // check if plyer is registered for competition sport
+            NormFor(data.Sports)
+                .Contains(sport)
+                .WithFault(CompettitionFaults.NotSport)
+                .WithMessage($"Player is not registefred for {sport}");
 
-  var ageVale = result.Validate(player.Age);
-  ageVale.WithFault(CompettitionFaults.AgeLimit)
-      .WithMessage($"The max age limit is {competition.MaxAgeLimit}.")
-      .LessOrEqual(competition.MaxAgeLimit);
+            // Adding custom validations aand errors
+            // check some external services / database etc...
+            var isSuspended = FakeServices.IsPlayerSuspended(data);
+            if (isSuspended)
+            {
+                AddError(CompettitionFaults.PlayerSuspended, $"Player {data.FirstName} is suspended!");
+            }
 
-  ageVale.WithMessage($"The minage limit is {competition.MinAgeLimit}.")
-      .GreaterThen(competition.MinAgeLimit);
-
-  result.Validate(2)
-      .WithFault(CompettitionFaults.AgeLimit)
-      .WithMessage($"The minage limit is {competition.MinAgeLimit}.")
-      .GreaterThen(competition.MinAgeLimit);
-
-  // add custom error (check database, external service ...)
-  result.AddError(CompettitionFaults.InvalidData, "This is custom error");  
+            await Task.CompletedTask;
+        }
+    }
 ```                
