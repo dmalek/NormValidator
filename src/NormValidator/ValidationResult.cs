@@ -23,7 +23,7 @@ public class ValidationResult
     public IDictionary<string, string[]> ToDictionary()
     {
         return _errors
-            .GroupBy(x => x.Type.ToString() ?? "")            
+            .GroupBy(x => x.FaultType.ToString())            
             .ToDictionary(g => 
                 g.Key, 
                 g => g.ToList().Select( y => y.Message).ToArray()
@@ -38,5 +38,10 @@ public class ValidationResult
     public void AddError(FaultType faultType, string message)
     {
         _errors.Add(new Fault(faultType, message));
+    }
+
+    public void Clear()
+    {
+        _errors.Clear();
     }
 }

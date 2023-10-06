@@ -29,11 +29,15 @@ public class InRangeNorm<T> : INorm<T>
 
 public static class InRangeExtensions
 {
-    public static IValidationContext<TValue> LessThen<TValue>(this IValidationContext<TValue> context, TValue from, TValue to)
+    public static NormContext<TValue> InRange<TValue>(this ValidationContext<TValue> context, TValue from, TValue to)
         where TValue : IComparable
-    {        
-        context.Norm = new InRangeNorm<TValue>().From(from).To(to);
-        context.Validate();
-        return context;
+    {
+        return context.AddNorm(new InRangeNorm<TValue>().From(from).To(to));
+    }
+
+    public static NormContext<TValue> InRange<TValue>(this NormContext<TValue> context, TValue from, TValue to)
+    where TValue : IComparable
+    {
+        return context.ValidationContext.AddNorm(new InRangeNorm<TValue>().From(from).To(to));
     }
 }

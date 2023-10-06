@@ -17,11 +17,14 @@ public class InNorm<T> : INorm<T>
 
 public static class InExtensions
 {
-    public static IValidationContext<TValue> In<TValue>(this IValidationContext<TValue> context, params TValue[] referenceValue)
+    public static NormContext<TValue> In<TValue>(this ValidationContext<TValue> context, params TValue[] referenceValue)
+    {
+        return context.AddNorm(new InNorm<TValue>().Values(referenceValue));
+    }
+
+    public static NormContext<TValue> In<TValue>(this NormContext<TValue> context, params TValue[] referenceValue)
     {        
-        context.Norm = new InNorm<TValue>().Values(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new InNorm<TValue>().Values(referenceValue));
     }
 }
 

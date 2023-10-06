@@ -10,11 +10,15 @@ public class GuidNorm : INorm<string>
 
 public static class GuidExtensions
 {
-    public static IValidationContext<string> Guid<TValue>(this IValidationContext<string> context)
+    public static NormContext<string> Guid<TValue>(this ValidationContext<string> context)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new GuidNorm());
+    }
+
+    public static NormContext<string> Guid<TValue>(this NormContext<string> context)
         where TValue : IComparable
     {
-        context.Norm = new GuidNorm();
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new GuidNorm());
     }
 }

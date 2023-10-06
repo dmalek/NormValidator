@@ -16,10 +16,13 @@ public sealed class NotEmptyNorm : INorm<string>
 
 public static class NotEmptyExtensions
 {
-    public static IValidationContext<string> NotEmpty(this IValidationContext<string> context)
+    public static NormContext<string> NotEmpty(this ValidationContext<string> context)
+    {
+        return context.AddNorm(new NotEmptyNorm());
+    }
+
+    public static NormContext<string> NotEmpty(this NormContext<string> context)
     {        
-        context.Norm = new NotEmptyNorm();
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new NotEmptyNorm());
     }
 }

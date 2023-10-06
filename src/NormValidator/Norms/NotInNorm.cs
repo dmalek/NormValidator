@@ -18,10 +18,13 @@ public class NotInNorm<T> : INorm<T>
 
 public static class NotInExtensions
 {
-    public static IValidationContext<TValue> NotIn<TValue>(this IValidationContext<TValue> context, params TValue[] referenceValue)
+    public static NormContext<TValue> NotIn<TValue>(this ValidationContext<TValue> context, params TValue[] referenceValue)
+    {
+        return context.AddNorm(new NotInNorm<TValue>().Values(referenceValue));
+    }
+
+    public static NormContext<TValue> NotIn<TValue>(this NormContext<TValue> context, params TValue[] referenceValue)
     {        
-        context.Norm = new NotInNorm<TValue>().Values(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new NotInNorm<TValue>().Values(referenceValue));
     }
 }

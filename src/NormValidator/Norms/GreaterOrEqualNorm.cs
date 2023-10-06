@@ -20,11 +20,15 @@ public class GreaterOrEqualNorm<T> : INorm<T>
 
 public static class GreaterOrEqualExtensions
 {
-    public static IValidationContext<TValue> GreaterOrEqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static NormContext<TValue> GreaterOrEqualTo<TValue>(this ValidationContext<TValue> context, TValue referenceValue)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new GreaterOrEqualNorm<TValue>().Then(referenceValue));
+    }
+
+    public static NormContext<TValue> GreaterOrEqualTo<TValue>(this NormContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new GreaterOrEqualNorm<TValue>().Then(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new GreaterOrEqualNorm<TValue>().Then(referenceValue));
     }
 }

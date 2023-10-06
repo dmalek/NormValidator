@@ -19,11 +19,15 @@ public class LessOrEqualNorm<T> : INorm<T>
 
 public static class LessOrEqualExtensions
 {
-    public static IValidationContext<TValue> LessOrEqual<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static NormContext<TValue> LessOrEqual<TValue>(this ValidationContext<TValue> context, TValue referenceValue)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new LessOrEqualNorm<TValue>().Then(referenceValue));
+    }
+
+    public static NormContext<TValue> LessOrEqual<TValue>(this NormContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new LessOrEqualNorm<TValue>().Then(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new LessOrEqualNorm<TValue>().Then(referenceValue));
     }
 }

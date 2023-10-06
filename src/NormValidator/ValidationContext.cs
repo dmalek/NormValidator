@@ -1,58 +1,55 @@
 ﻿namespace NormValidator;
 
-public class ValidationContext<TValue>: IValidationContext<TValue>
+public sealed class ValidationContext<TValue> : IValidationContext
 {
-    private readonly ValidationResult _result;
     private readonly TValue _value;
+    private readonly List<NormContext<TValue>> _normContexts = new();
 
-    public ValidationContext(ValidationResult result, TValue value)
+    public ValidationContext(TValue value)
     {
-        _result = result;
         _value = value;
     }
 
     public TValue Value => _value;
 
-    public INorm<TValue> Norm { get; set; }
-    public FaultType FaultType { get; set; }
-    public string Message { get; set; } = string.Empty;
+    public FaultType DefaultFaultType { get; set; }
+    public string DefaultMessage { get; set; }
 
-    public void Validate(string? withMessage = null)
+    public NormContext<TValue> AddNorm(INorm<TValue> norm)
     {
-        if (Norm is null)
+        if (norm == null)
         {
-            throw new ArgumentNullException("Norm is not assigned!");
+            throw new InvalidOperationException("Error creating norm!");
         }
 
-        var isValid = Norm.Validate(_value);
-
-        if (!isValid)
-        {
-            if (withMessage is null && Norm is INormErrors)
-            {
-                AddErrorsFromNorm();
-            }
-            else
-            {
-                _result.AddError(FaultType, withMessage ?? Message);
-            }            
-        }
+        var normContext = new NormContext<TValue>(norm, this);
+        _normContexts.Add(normContext);    
+        return normContext;
     }
 
-    private void AddErrorsFromNorm()
+    public IEnumerable<Fault> Validate()
     {
-        var errors = ((INormErrors)Norm).Errors;
-        if (errors.Count() > 0)
+        List<Fault> result = new();
+        foreach (var norm in _normContexts)
         {
-            foreach (var error in errors)
+            var isValid = norm.Norm.Validate(_value);
+
+            if (!isValid)
             {
-                _result.AddError(FaultType, error);
+                if (norm.Norm is INormErrors)
+                {
+                    foreach (var error in ((INormErrors)norm.Norm).Errors)
+                    {
+                        result.Add(new Fault( norm.FaultType ?? DefaultFaultType, error ?? DefaultMessage));
+                    }
+                }
+                else
+                {
+                    result.Add(new Fault( norm.FaultType ?? DefaultFaultType, norm.Message ?? DefaultMessage));
+                }
             }
         }
-    }
 
-    public override string ToString()
-    {
-        return base.ToString();
+        return result;
     }
 }

@@ -1,11 +1,10 @@
 ﻿namespace NormValidator
 {
-    public interface IValidationContext<TValue>
+    public interface IValidationContext
     {
-        public TValue Value { get;}
-        public INorm<TValue> Norm { get; set; }
-        public string Message { get; set; }
-        public FaultType FaultType { get; set; }
-        public void Validate(string? withMessage = null);
+        public FaultType DefaultFaultType { get; set; }
+        public string DefaultMessage { get; set; }
+
+        IEnumerable<Fault> Validate();
     }
 }

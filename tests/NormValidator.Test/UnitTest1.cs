@@ -4,47 +4,20 @@ namespace NormValidator.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public async Task TestMethod1()
         {
-            var competition = new Compettition()
-            {
-                Name = "Under 21",
-                MaxAgeLimit = 21,
-                MinAgeLimit = 17
-            };
-
             var player = new Player()
             {
                 FirstName = "Foo",
                 Age = 23,
+                Sports = new[] {"athletics", "basketball"}
             };
 
+            var result = await (new AddPlayerValidationHandler()).ValidateAsync(player);
 
-            var result = new ValidationResult();
-            result.Validate(player)
-                .WithFault(CompettitionFaults.InvalidData)
-                .DataAnnotations();
-
-            var ageVale = result.Validate(player.Age);
-            ageVale.WithFault(CompettitionFaults.AgeLimit)
-                .WithMessage($"The max age limit is {competition.MaxAgeLimit}.")
-                .LessOrEqual(competition.MaxAgeLimit);
-
-            ageVale.WithMessage($"The minage limit is {competition.MinAgeLimit}.")
-                .GreaterThen(competition.MinAgeLimit);
-
-            result.Validate(2)
-                .WithFault(CompettitionFaults.AgeLimit)
-                .WithMessage($"The minage limit is {competition.MinAgeLimit}.")
-                .GreaterThen(competition.MinAgeLimit);
-
-            // add custom error  
-            result.AddError(CompettitionFaults.InvalidData, "This is custom error");
-
-            var x = result.Errors.Count();
-            var y = result.ToDictionary();
-            Assert.AreNotEqual(0, x);
-
+            Assert.AreEqual(result.Errors.Count(), 4);
+            Assert.AreEqual(result.Errors.Where( x => x.FaultType == CompettitionFaults.AgeLimit).Count(),  1);
+            Assert.AreEqual(result.Errors.Where(x => x.FaultType == CompettitionFaults.NotSport).Count(), 1);
         }
     }
 }

@@ -7,20 +7,27 @@ public static class Extensions
         throw new FaultException(fault);
     }
 
-    public static ValidationContext<TValue> WithFault<TValue>(this ValidationContext<TValue> context, FaultType faultType)
+    public static ValidationContext<TValue> WithDefaultFault<TValue>(this ValidationContext<TValue> context, FaultType faultType)
+    {
+        context.DefaultFaultType = faultType;
+        return context;
+    }
+
+    public static ValidationContext<TValue> WithDefaultMessage<TValue>(this ValidationContext<TValue> context, string message)
+    {
+        context.DefaultMessage = message;
+        return context;
+    }
+
+    public static NormContext<TValue> WithFault<TValue>(this NormContext<TValue> context, FaultType faultType)
     {
         context.FaultType = faultType;
         return context;
     }
 
-    public static ValidationContext<TValue> WithMessage<TValue>(this ValidationContext<TValue> context, string message)
+    public static NormContext<TValue> WithMessage<TValue>(this NormContext<TValue> context, string message)
     {
         context.Message = message;
         return context;
-    }
-
-    public static ValidationContext<TValue> Validate<TValue>(this ValidationResult result, TValue value)
-    {
-        return new ValidationContext<TValue>(result, value);
     }
 }

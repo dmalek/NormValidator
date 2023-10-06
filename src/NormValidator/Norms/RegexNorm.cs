@@ -22,10 +22,13 @@ public class RegexNorm : INorm<string>
 
 public static class RegexExtensions
 {
-    public static IValidationContext<string> Regex(this IValidationContext<string> context, string expression)
+    public static NormContext<string> Regex(this ValidationContext<string> context, string expression)
+    {
+        return context.AddNorm(new RegexNorm().Match(expression));
+    }
+
+    public static NormContext<string> Regex(this NormContext<string> context, string expression)
     {        
-        context.Norm = new RegexNorm().Match(expression);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new RegexNorm().Match(expression));
     }
 }

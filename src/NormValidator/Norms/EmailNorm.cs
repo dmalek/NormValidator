@@ -12,11 +12,15 @@ public class EmailNorm : INorm<string>
 
 public static class EmailExtensions
 {
-    public static IValidationContext<string> Email<TValue>(this IValidationContext<string> context)
+    public static NormContext<string> Email<TValue>(this ValidationContext<string> context)
         where TValue : IComparable
     {        
-        context.Norm = new EmailNorm();
-        context.Validate();
-        return context;
+        return context.AddNorm( new EmailNorm());
+    }
+
+    public static NormContext<string> Email<TValue>(this NormContext<string> context)
+    where TValue : IComparable
+    {
+        return context.ValidationContext.AddNorm(new EmailNorm());
     }
 }

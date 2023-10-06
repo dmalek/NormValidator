@@ -20,11 +20,15 @@ public class EqualNorm<T> : INorm<T>
 
 public static class EqualExtensions
 {
-    public static IValidationContext<TValue> EqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static NormContext<TValue> EqualTo<TValue>(this ValidationContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
-    {        
-        context.Norm = new EqualNorm<TValue>().To(referenceValue);
-        context.Validate();
-        return context;
+    {
+        return context.AddNorm(new EqualNorm<TValue>().To(referenceValue));
+    }
+
+    public static NormContext<TValue> EqualTo<TValue>(this NormContext<TValue> context, TValue referenceValue)
+    where TValue : IComparable
+    {
+        return context.ValidationContext.AddNorm(new EqualNorm<TValue>().To(referenceValue));
     }
 }

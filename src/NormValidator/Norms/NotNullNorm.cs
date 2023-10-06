@@ -10,11 +10,15 @@ public sealed class NotNullNorm<T> : INorm<T>
 
 public static class NotNullExtensions
 {
-    public static IValidationContext<TValue> Lower<TValue>(this IValidationContext<TValue> context)
+    public static NormContext<TValue> Lower<TValue>(this ValidationContext<TValue> context)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new NotNullNorm<TValue>());
+    }
+
+    public static NormContext<TValue> Lower<TValue>(this NormContext<TValue> context)
         where TValue : IComparable
     {        
-        context.Norm = new NotNullNorm<TValue>();
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new NotNullNorm<TValue>());
     }
 }

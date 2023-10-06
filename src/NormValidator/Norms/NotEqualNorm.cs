@@ -20,11 +20,15 @@ public class NotEqualNorm<T> : INorm<T>
 
 public static class NotEqualExtensions
 {
-    public static IValidationContext<TValue> NotEqualTo<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static NormContext<TValue> NotEqualTo<TValue>(this ValidationContext<TValue> context, TValue referenceValue)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new NotEqualNorm<TValue>().To(referenceValue));
+    }
+
+    public static NormContext<TValue> NotEqualTo<TValue>(this NormContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new NotEqualNorm<TValue>().To(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new NotEqualNorm<TValue>().To(referenceValue));
     }
 }

@@ -28,10 +28,13 @@ public class DataAnnotationsNorm<T> : INorm<T>, INormErrors
 
 public static class DataAnnotationsExtensions
 {
-    public static IValidationContext<TValue> DataAnnotations<TValue>(this IValidationContext<TValue> context)
+    public static NormContext<TValue> DataAnnotations<TValue>(this ValidationContext<TValue> context)
     {        
-        context.Norm = new DataAnnotationsNorm<TValue>();        
-        context.Validate();
-        return context;
+        return context.AddNorm(new DataAnnotationsNorm<TValue>());        
+    }
+
+    public static NormContext<TValue> DataAnnotations<TValue>(this NormContext<TValue> context)
+    {
+        return context.ValidationContext.AddNorm(new DataAnnotationsNorm<TValue>());
     }
 }

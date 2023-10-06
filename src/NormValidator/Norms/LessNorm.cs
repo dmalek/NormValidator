@@ -19,11 +19,15 @@ public class LessNorm<T> : INorm<T>
 
 public static class LessExtensions
 {
-    public static IValidationContext<TValue> LessThen<TValue>(this IValidationContext<TValue> context, TValue referenceValue)
+    public static NormContext<TValue> LessThen<TValue>(this ValidationContext<TValue> context, TValue referenceValue)
+    where TValue : IComparable
+    {
+        return context.AddNorm(new LessNorm<TValue>().Then(referenceValue));
+    }
+
+    public static NormContext<TValue> LessThen<TValue>(this NormContext<TValue> context, TValue referenceValue)
         where TValue : IComparable
     {        
-        context.Norm = new LessNorm<TValue>().Then(referenceValue);
-        context.Validate();
-        return context;
+        return context.ValidationContext.AddNorm(new LessNorm<TValue>().Then(referenceValue));        
     }
 }
