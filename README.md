@@ -1,5 +1,6 @@
 # NormValidator
-Simple validator with rules and strongly typed errors
+Simple validation with strongly typed rules (aka. norms) and strongly typed errors throu the validation handler.
+Primarily for managing business rules. 
 
 ## Define faults
 ```
