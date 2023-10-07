@@ -4,7 +4,27 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>NormValidator</Title>
+    <Description>Simple validation with strongly typed rules (aka. norms) and strongly typed errors throu the validation handler. Primarily for managing business rules.</Description>
+    <PackageProjectUrl>https://github.com/dmalek/NormValidator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dmalek/NormValidator</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
