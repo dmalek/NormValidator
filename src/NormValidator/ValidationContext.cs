@@ -12,8 +12,8 @@ public sealed class ValidationContext<TValue> : IValidationContext
 
     public TValue Value => _value;
 
-    public FaultType DefaultFaultType { get; set; }
-    public string DefaultMessage { get; set; }
+    public FaultType? DefaultFaultType { get; set; } = null;
+    public string DefaultMessage { get; set; } = string.Empty;
 
     public NormContext<TValue> AddNorm(INorm<TValue> norm)
     {

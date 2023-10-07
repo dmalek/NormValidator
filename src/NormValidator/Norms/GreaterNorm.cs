@@ -10,7 +10,7 @@ public class GreaterNorm<T> : INorm<T>
     }
 
 
-    private T _referenceValue = default(T);
+    private T? _referenceValue = default;
 
     public bool Validate(T value)
     {

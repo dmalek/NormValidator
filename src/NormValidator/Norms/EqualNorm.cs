@@ -9,7 +9,7 @@ public class EqualNorm<T> : INorm<T>
         return this;
     }
 
-    private T _referenceValue = default(T);
+    private T? _referenceValue = default;
 
     public bool Validate(T value)
     {

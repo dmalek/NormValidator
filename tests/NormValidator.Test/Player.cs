@@ -4,6 +4,8 @@ namespace NormValidator.Test
 {
     internal record Player
     {
+        public string Id { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         public string FirstName { get; set; } = String.Empty;
 
@@ -14,6 +16,8 @@ namespace NormValidator.Test
         public int Age { get; set; }
 
         public IEnumerable<string> Sports { get; set; }
+
+        public string Email { get; set; }
 
     }
 }

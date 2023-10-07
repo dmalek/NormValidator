@@ -10,7 +10,12 @@
             int maxAgeLimit = 21;
             int minAgeLimit = 17;
             string sport = "footbal";
-          
+
+            // validate ID as GUID
+            NormFor(data.Id)
+                .Guid()
+                .WithMessage("Invalid ID format!");
+                
             // validate data annotations
             NormFor(data)
                 .DataAnnotations();
@@ -30,9 +35,14 @@
                 .WithFault(CompettitionFaults.NotSport)
                 .WithMessage($"Player is not registefred for {sport}");
 
+            // validate email 
+            NormFor(data.Email)
+                .Email()
+                .WithMessage($"Invalid email '{data.Email}'.");     
+
             // Adding custom validations and errors
             // check some external services / database etc...
-            var isSuspended = FakeServices.IsPlayerSuspended(data);
+            var isSuspended = FakeServices.IsPlayerSuspended(data.Id);
             if (isSuspended)
             {
                 AddError(CompettitionFaults.PlayerSuspended, $"Player {data.FirstName} is suspended!");

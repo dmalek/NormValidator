@@ -29,7 +29,7 @@ public sealed class ValidatorProvider : IValidatorProvider
         // nema registriranog validatora, onda je sve OK (developeru ne treba validator :))
         if (validatorResult is null)
         {
-            return new ValidationResult(data.GetType().FullName);
+            return new ValidationResult(data.GetType().FullName ?? string.Empty);
         }
 
         return validatorResult;
@@ -43,18 +43,18 @@ public sealed class ValidatorProvider : IValidatorProvider
             throw new ArgumentNullException(nameof(data));
         }
 
-        // pronađi validator
+        // finf validator
         using var scope = _serviceProvider.CreateScope();
         var validatorType = typeof(IValidationHandler<>).MakeGenericType(data.GetType());
         dynamic? validator = scope.ServiceProvider.GetService(validatorType);
 
-        // ako nije pronađen validator, vraćamo null
+        // no validator found
         if (validator is null)
         {
             return null;
         }
 
-        // validiraj request i vrati ValidatorReasult
+        // validate and retun result
         return await (Task<ValidationResult?>)validatorType
             .GetMethod(nameof(IValidationHandler<T>.ValidateAsync))?
             .Invoke(validator, new object[] { data, cancellationToken });
@@ -86,7 +86,7 @@ public sealed class ValidatorProvider : IValidatorProvider
             throw new ArgumentNullException(nameof(data));
         }
 
-        IValidationHandler<T> validator = GetValidator(data);
+        IValidationHandler<T>? validator = GetValidator(data);
         if (validator is null)
         {
             throw new InvalidOperationException($"No validator registered for data type '{data.GetType().FullName}'.");

@@ -2,7 +2,7 @@
 {
     internal static class FakeServices
     {
-        public static bool IsPlayerSuspended(Player player)
+        public static bool IsPlayerSuspended(string playerId)
         {
             return true;
         }

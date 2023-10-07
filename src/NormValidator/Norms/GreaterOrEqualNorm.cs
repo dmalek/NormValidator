@@ -3,7 +3,7 @@
 public class GreaterOrEqualNorm<T> : INorm<T>
     where T : IComparable
 {
-    private T _referenceValue = default(T);
+    private T? _referenceValue = default;
 
     public GreaterOrEqualNorm<T> Then(T referenceValue)
     {

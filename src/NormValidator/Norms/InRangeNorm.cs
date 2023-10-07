@@ -15,8 +15,8 @@ public class InRangeNorm<T> : INorm<T>
         return this;
     }
 
-    private T _from = default(T);
-    private T _to = default(T);
+    private T? _from = default;
+    private T? _to = default;
 
     public bool Validate(T value)
     {

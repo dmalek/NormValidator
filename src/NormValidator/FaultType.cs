@@ -17,7 +17,7 @@ namespace NormValidator
                      .Select(f => f.GetValue(null))
                      .Cast<T>();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is not FaultType otherValue)
             {
@@ -30,7 +30,16 @@ namespace NormValidator
             return typeMatches && valueMatches;
         }
 
-        public int CompareTo(object other) => Name.CompareTo(((FaultType)other).Name);
+        public int CompareTo(object? other)
+        {
+            string? otherName = null;
+            if (other != null && other is FaultType)
+            {
+                otherName = ((FaultType)other).Name;
+            }
+
+            return Name.CompareTo(otherName);
+        } 
 
         public override int GetHashCode()
         {
@@ -51,7 +60,5 @@ namespace NormValidator
         {
             return !(left == right);
         }
-
-        // Other utility methods ...
     }
 }
