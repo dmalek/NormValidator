@@ -21,7 +21,9 @@ namespace NormValidator.Test
             };
 
             IServiceCollection services = new ServiceCollection();
-            services.AddValidatorProvider();
+            services.AddNormValidatorProvider( cfg =>
+                cfg.RegisterServicesFromAssembly(typeof(UnitTest1).Assembly)
+            );
 
             _serviceProvider = services.BuildServiceProvider();
 
